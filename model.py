@@ -1,4 +1,6 @@
 import logging
+import hashlib
+import base64
 
 logger = logging.getLogger(__name__)
 
@@ -7,21 +9,25 @@ class Model:
     KEY_LENGTH = 15
     assert KEY_LENGTH % 5 == 0
 
-    def check_key(self, seed: str, key: str) -> bool:
-        is_valid = key == self.generate_key(seed)
+    def check_key(self, input_data: str, key: str) -> bool:
+        is_valid = key == self.generate_key(input_data)
         if is_valid:
-            logger.info("Key %r is valid", key)
+            logger.info("Key %r is valid", self.add_dashes(key))
         else:
-            logger.warning("Key %r is invalid", key)
+            logger.warning("Key %r is invalid", self.add_dashes(key))
         return is_valid
 
-    def keygen(self, seed: str) -> str:
-        # TODO: Write better keygen
-        return ""
+    def generate_key(self, input_data: str) -> str:
+        sha256_hash = hashlib.sha256(input_data.encode()).digest()
+        key = base64.urlsafe_b64encode(sha256_hash).decode("utf-8")
+        key = "".join(char for char in key if char.isalnum())
+        key = key[: self.KEY_LENGTH]
+        key = key.upper()
+        return key
 
-    def generate_key(self, seed: str) -> str:
-        logger.debug("Generating key for seed %r", seed)
-        key = seed.upper()
+    def generate_key_old(self, input_data: str) -> str:
+        logger.debug("Generating key for seed %r", input_data)
+        key = input_data.upper()
         logger.debug("Key to uppercase:       %r", key)
 
         key = "".join(key[c % len(key)] for c in range(self.KEY_LENGTH))
