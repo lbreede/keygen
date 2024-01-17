@@ -48,6 +48,7 @@ logger = logging.getLogger(__name__)
 class View(QWidget):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("Keygen")
         username_label = QLabel("Username:")
         username_label.setFixedWidth(100)
         self.username_field = QLineEdit("HazeBlaze420")
