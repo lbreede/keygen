@@ -1,6 +1,6 @@
 import logging
 
-import pyperclip
+import pyperclip  # type: ignore
 from PyQt5.QtWidgets import (
     QApplication,
     QHBoxLayout,
@@ -67,7 +67,6 @@ class View(QWidget):
         serial_field = self.line_edit_layout("Serial:", self.serial_field)
 
         layout = QVBoxLayout()
-        # layout.addLayout(grid_layout)
         layout.addLayout(username_field)
         layout.addLayout(serial_field)
         layout.addLayout(self.buttons_layout())
@@ -110,7 +109,7 @@ class Presenter:
         self.view.cancel_btn.clicked.connect(self.view.close)
 
     def copy_serial(self) -> None:
-        pyperclip.copy(self.view.serial)
+        pyperclip.copy(self.view.serial)  # type: ignore
         logger.info("Copied serial %r to clipboard", self.view.serial)
 
     def format_serial(self, text: str) -> None:
