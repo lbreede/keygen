@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import (
     QWidget,
     QLineEdit,
     QMessageBox,
+    QGridLayout,
 )
 import logging
 from model import Model
@@ -23,7 +24,7 @@ class bcolors:
 
 logging.basicConfig(
     level=logging.DEBUG,
-    format="%(asctime)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
@@ -46,33 +47,35 @@ logger = logging.getLogger(__name__)
 class View(QWidget):
     def __init__(self):
         super().__init__()
+        username_label = QLabel("Username:")
+        username_label.setFixedWidth(100)
+        self.username_field = QLineEdit("HazeBlaze420")
+        self.username_field.setFixedWidth(300)
 
-        self.username_field = QLineEdit()
-        self.serial_field = QLineEdit()
-        self.next_btn = QPushButton("Generate")
+        serial_label = QLabel("Serial:")
+        serial_label.setFixedWidth(100)
+        self.serial_field = QLabel("XXXXX-XXXXX-XXXXX-XXXXX-XXXXX")
+        self.serial_field.setFixedWidth(300)
+        self.serial_btn = QPushButton("Copy to Clipboard")
+
+        self.generate_btn = QPushButton("Generate")
         self.cancel_btn = QPushButton("Cancel")
 
+        grid_layout = QGridLayout()
+        grid_layout.addWidget(username_label, 0, 0)
+        grid_layout.addWidget(self.username_field, 0, 1)
+        grid_layout.addWidget(serial_label, 1, 0)
+        grid_layout.addWidget(self.serial_field, 1, 1)
+        grid_layout.addWidget(self.serial_btn, 1, 2)
+
         layout = QVBoxLayout()
-        layout.addLayout(self.line_edit_layout("Username:", self.username_field))
-        # TODO: Add copy to clipboard button to serial field
-        layout.addLayout(self.line_edit_layout("Serial:", self.serial_field))
+        layout.addLayout(grid_layout)
         layout.addLayout(self.buttons_layout())
         self.setLayout(layout)
 
-        self.serial_field.setFocus()
-
-    def line_edit_layout(self, name: str, line_edit: QLineEdit) -> QHBoxLayout:
-        layout = QHBoxLayout()
-        label = QLabel(name)
-        label.setFixedWidth(100)
-        line_edit.setFixedWidth(300)
-        layout.addWidget(label)
-        layout.addWidget(line_edit)
-        return layout
-
     def buttons_layout(self) -> QHBoxLayout:
         buttons_layout = QHBoxLayout()
-        buttons_layout.addWidget(self.next_btn)
+        buttons_layout.addWidget(self.generate_btn)
         buttons_layout.addWidget(self.cancel_btn)
         return buttons_layout
 
@@ -80,44 +83,22 @@ class View(QWidget):
     def username(self) -> str:
         return self.username_field.text()
 
-    @property
-    def serial(self) -> str:
-        return self.serial_field.text().replace("-", "")
-
-    @property
-    def serial_placeholder_text(self) -> str:
-        ...
-
-    @serial_placeholder_text.setter
-    def serial_placeholder_text(self, text: str):
-        self.serial_field.setPlaceholderText(text)
-
-    @property
-    def serial_max_length(self) -> int:
-        ...
-
-    @serial_max_length.setter
-    def serial_max_length(self, length: int):
-        self.serial_field.setMaxLength(length)
-
 
 class Presenter:
     def __init__(self, model: Model, view: View):
         self.model = model
         self.view = view
-        self.init_view()
+        # self.init_view()
         self.connect_signals()
 
-    def init_view(self) -> None:
-        self.view.serial_placeholder_text = "-".join(
-            ["X" * (self.model.KEY_LENGTH // 5) for _ in range(5)]
-        )
-        self.view.serial_max_length = self.model.KEY_LENGTH + 4
-
     def connect_signals(self) -> None:
-        self.view.serial_field.textChanged.connect(self.format_serial)
-        self.view.next_btn.clicked.connect(self.next_btn_clicked)
+        self.view.serial_btn.clicked.connect(self.copy_serial)
+        self.view.generate_btn.clicked.connect(self.next_btn_clicked)
         self.view.cancel_btn.clicked.connect(self.view.close)
+
+    def copy_serial(self) -> None:
+        self.view.serial_field.selectAll()
+        self.view.serial_field.copy()
 
     def format_serial(self, text: str) -> None:
         text = "".join(c.upper() for c in text if c.isalnum())
@@ -125,15 +106,9 @@ class Presenter:
         self.view.serial_field.setText(text)
 
     def next_btn_clicked(self):
-        if self.model.check_key(self.view.username, self.view.serial):
-            QMessageBox.information(
-                self.view, "Success", "Your key is valid, you can proceed."
-            )
-            self.view.close()
-        else:
-            QMessageBox.warning(
-                self.view, "Error", "Your key is invalid, please try again."
-            )
+        self.view.serial_field.setText(
+            self.model.generate_key_with_dashes(self.view.username)
+        )
 
 
 if __name__ == "__main__":
