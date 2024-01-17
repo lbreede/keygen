@@ -26,7 +26,8 @@ class Model:
         key = key.upper()
         return key
 
-    def generate_key_old(self, input_data: str) -> str:
+    def _generate_key_old(self, input_data: str) -> str:
+        """My old and fun way of creating a serial key ;)"""
         logger.debug("Generating key for seed %r", input_data)
         key = input_data.upper()
         logger.debug("Key to uppercase:       %r", key)
