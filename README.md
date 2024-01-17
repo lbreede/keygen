@@ -80,3 +80,6 @@ This project is licensed under the [MIT License](LICENSE).
 - [ ] Remove `# type: ignore` and fix underlying issue
 - [ ] Rename `main.py` to something more appropriate 
 - [ ] Create `main.py` that runs both programms
+- [ ] Add [TODO.md](https://github.com/todomd/todo.md)
+
+
