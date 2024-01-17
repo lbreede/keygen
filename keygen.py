@@ -51,7 +51,7 @@ class View(QWidget):
         self.setWindowTitle("Keygen")
         username_label = QLabel("Username:")
         username_label.setFixedWidth(100)
-        self.username_field = QLineEdit("HazeBlaze420")
+        self.username_field = QLineEdit()
         self.username_field.setFixedWidth(300)
 
         serial_label = QLabel("Serial:")

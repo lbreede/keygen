@@ -49,7 +49,7 @@ class View(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.username_field = QLineEdit("HazeBlaze420")
+        self.username_field = QLineEdit()
         self.serial_field = QLineEdit()
         self.next_btn = QPushButton("Next >")
         self.cancel_btn = QPushButton("Cancel")
