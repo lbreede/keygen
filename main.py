@@ -48,6 +48,7 @@ logger = logging.getLogger(__name__)
 class View(QWidget):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("Activate Software")
 
         self.username_field = QLineEdit()
         self.serial_field = QLineEdit()
