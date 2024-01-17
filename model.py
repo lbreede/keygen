@@ -1,6 +1,6 @@
-import logging
-import hashlib
 import base64
+import hashlib
+import logging
 
 logger = logging.getLogger(__name__)
 
