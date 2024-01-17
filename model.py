@@ -17,7 +17,7 @@ class Model:
 
     def keygen(self, seed: str) -> str:
         # TODO: Write better keygen
-        pass
+        return ""
 
     def generate_key(self, seed: str) -> str:
         logger.debug("Generating key for seed %r", seed)
