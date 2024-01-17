@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import (
 )
 import logging
 from model import Model
+import pyperclip
 
 
 class bcolors:
@@ -54,7 +55,7 @@ class View(QWidget):
 
         serial_label = QLabel("Serial:")
         serial_label.setFixedWidth(100)
-        self.serial_field = QLabel("XXXXX-XXXXX-XXXXX-XXXXX-XXXXX")
+        self.serial_field = QLabel()
         self.serial_field.setFixedWidth(300)
         self.serial_btn = QPushButton("Copy to Clipboard")
 
@@ -83,12 +84,15 @@ class View(QWidget):
     def username(self) -> str:
         return self.username_field.text()
 
+    @property
+    def serial(self) -> str:
+        return self.serial_field.text()
+
 
 class Presenter:
     def __init__(self, model: Model, view: View):
         self.model = model
         self.view = view
-        # self.init_view()
         self.connect_signals()
 
     def connect_signals(self) -> None:
@@ -97,8 +101,8 @@ class Presenter:
         self.view.cancel_btn.clicked.connect(self.view.close)
 
     def copy_serial(self) -> None:
-        self.view.serial_field.selectAll()
-        self.view.serial_field.copy()
+        pyperclip.copy(self.view.serial)
+        logger.info("Copied serial %r to clipboard", self.view.serial)
 
     def format_serial(self, text: str) -> None:
         text = "".join(c.upper() for c in text if c.isalnum())
