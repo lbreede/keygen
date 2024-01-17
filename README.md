@@ -8,7 +8,7 @@
 
 ## Description
 
-A brief description of your project.
+A fun excursion in the world of software serial keys and keygens.
 
 ## Table of Contents
 
