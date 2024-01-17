@@ -73,13 +73,3 @@ That's it! You have successfully used the keygen program.
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-## To-Do's
-
-- [ ] Address `# TODO: ...` comments (duh)
-- [ ] Remove `# type: ignore` and fix underlying issue
-- [ ] Rename `main.py` to something more appropriate 
-- [ ] Create `main.py` that runs both programms
-- [ ] Add [TODO.md](https://github.com/todomd/todo.md)
-
-
