@@ -76,7 +76,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## To-Do's
 
-- [ ] Address "# TODO: ..." comments (duh)
-- [ ] Remove "type: ignore" and fix underlying issue
+- [ ] Address `# TODO: ...` comments (duh)
+- [ ] Remove `# type: ignore` and fix underlying issue
 - [ ] Rename `main.py` to something more appropriate 
 - [ ] Create `main.py` that runs both programms
