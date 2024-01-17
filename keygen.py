@@ -91,7 +91,7 @@ class View(QWidget):
 
     @property
     def username(self) -> str:
-        return self.username_field.text()
+        return self.username_field.text().strip()
 
     @property
     def serial(self) -> str:
