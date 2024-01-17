@@ -2,18 +2,17 @@
 
 Project Description
 
-<em>[TODO.md spec & Kanban Board](https://bit.ly/3fCwKfM)</em>
-
 ### Todo
 
-- [ ] Address `# TODO: ...` comments (duh)  
-- [ ] Remove `# type: ignore` and fix underlying linting issue  
-- [ ] Rename `main.py` to something more appropriate  
+- [ ] Address TODO comments (duh)  
+- [ ] Remove type ignore comments and fix underlying linting warnings  
+- [ ] Rename main.py to something more appropriate  
+- [ ] Add main.py to run both programs  
 
 ### In Progress
 
 
 ### Done ✓
 
-- [x] Add `TODO.md`  
+- [x] Add TODO.md to project  
 
