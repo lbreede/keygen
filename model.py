@@ -6,8 +6,9 @@ logger = logging.getLogger(__name__.center(8))
 
 
 class Model:
-    KEY_LENGTH = 15
-    assert KEY_LENGTH % 5 == 0
+    def __init__(self, key_length: int = 25):
+        self.key_length = key_length
+        assert self.key_length % 5 == 0  # TODO: Remove this line
 
     def check_key(self, input_data: str, key: str) -> bool:
         is_valid = key == self.generate_key(input_data)
@@ -21,7 +22,7 @@ class Model:
         sha256_hash = hashlib.sha256(input_data.encode()).digest()
         key = base64.urlsafe_b64encode(sha256_hash).decode("utf-8")
         key = "".join(char for char in key if char.isalnum())
-        key = key[: self.KEY_LENGTH]
+        key = key[: self.key_length]
         key = key.upper()
         return key
 
@@ -30,8 +31,8 @@ class Model:
         key = input_data.upper()
         logger.debug("Key to uppercase:       %r", key)
 
-        key = "".join(key[c % len(key)] for c in range(self.KEY_LENGTH))
-        logger.debug("Filled to length %02d:    %r", self.KEY_LENGTH, key)
+        key = "".join(key[c % len(key)] for c in range(self.key_length))
+        logger.debug("Filled to length %02d:    %r", self.key_length, key)
 
         key = (
             key.replace("0", "A")
@@ -67,7 +68,7 @@ class Model:
         return "".join(chr((ord(c) - ord("A") + 13) % 26 + ord("A")) for c in text)
 
     def add_dashes(self, text: str) -> str:
-        magic_number = self.KEY_LENGTH // 5
+        magic_number = self.key_length // 5
         for i in range(4):
             n = (i + 1) * magic_number + i
             if len(text) > n:

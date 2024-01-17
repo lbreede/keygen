@@ -110,9 +110,9 @@ class Presenter:
 
     def init_view(self) -> None:
         self.view.serial_placeholder_text = "-".join(
-            ["X" * (self.model.KEY_LENGTH // 5) for _ in range(5)]
+            ["X" * (self.model.key_length // 5) for _ in range(5)]
         )
-        self.view.serial_max_length = self.model.KEY_LENGTH + 4
+        self.view.serial_max_length = self.model.key_length + 4
 
     def connect_signals(self) -> None:
         self.view.serial_field.textChanged.connect(self.format_serial)
