@@ -25,7 +25,7 @@ class bcolors:
 
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
@@ -42,7 +42,7 @@ for level, color in LEVEL_COLORS:
     logging.addLevelName(level, name)
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__.center(8))
 
 
 class View(QWidget):
@@ -60,8 +60,6 @@ class View(QWidget):
         layout.addLayout(self.line_edit_layout("Serial:", self.serial_field))
         layout.addLayout(self.buttons_layout())
         self.setLayout(layout)
-
-        self.serial_field.setFocus()
 
     def line_edit_layout(self, name: str, line_edit: QLineEdit) -> QHBoxLayout:
         layout = QHBoxLayout()

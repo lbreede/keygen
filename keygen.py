@@ -42,7 +42,7 @@ for level, color in LEVEL_COLORS:
     logging.addLevelName(level, name)
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("keygen".center(8))
 
 
 class View(QWidget):

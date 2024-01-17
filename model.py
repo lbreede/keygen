@@ -2,7 +2,7 @@ import base64
 import hashlib
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__.center(8))
 
 
 class Model:
