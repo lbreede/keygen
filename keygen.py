@@ -6,8 +6,6 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QWidget,
     QLineEdit,
-    QMessageBox,
-    QGridLayout,
 )
 import logging
 from model import Model
@@ -57,26 +55,34 @@ class View(QWidget):
         serial_label.setFixedWidth(100)
         self.serial_field = QLabel()
         self.serial_field.setFixedWidth(300)
-        self.serial_btn = QPushButton("Copy to Clipboard")
 
         self.generate_btn = QPushButton("Generate")
+        self.copy_btn = QPushButton("Copy to Clipboard")
         self.cancel_btn = QPushButton("Cancel")
 
-        grid_layout = QGridLayout()
-        grid_layout.addWidget(username_label, 0, 0)
-        grid_layout.addWidget(self.username_field, 0, 1)
-        grid_layout.addWidget(serial_label, 1, 0)
-        grid_layout.addWidget(self.serial_field, 1, 1)
-        grid_layout.addWidget(self.serial_btn, 1, 2)
+        username_field = self.line_edit_layout("Username:", self.username_field)
+        serial_field = self.line_edit_layout("Serial:", self.serial_field)
 
         layout = QVBoxLayout()
-        layout.addLayout(grid_layout)
+        # layout.addLayout(grid_layout)
+        layout.addLayout(username_field)
+        layout.addLayout(serial_field)
         layout.addLayout(self.buttons_layout())
         self.setLayout(layout)
+
+    def line_edit_layout(self, name: str, line_edit: QLineEdit | QLabel) -> QHBoxLayout:
+        layout = QHBoxLayout()
+        label = QLabel(name)
+        label.setFixedWidth(100)
+        line_edit.setFixedWidth(300)
+        layout.addWidget(label)
+        layout.addWidget(line_edit)
+        return layout
 
     def buttons_layout(self) -> QHBoxLayout:
         buttons_layout = QHBoxLayout()
         buttons_layout.addWidget(self.generate_btn)
+        buttons_layout.addWidget(self.copy_btn)
         buttons_layout.addWidget(self.cancel_btn)
         return buttons_layout
 
@@ -96,7 +102,7 @@ class Presenter:
         self.connect_signals()
 
     def connect_signals(self) -> None:
-        self.view.serial_btn.clicked.connect(self.copy_serial)
+        self.view.copy_btn.clicked.connect(self.copy_serial)
         self.view.generate_btn.clicked.connect(self.next_btn_clicked)
         self.view.cancel_btn.clicked.connect(self.view.close)
 
