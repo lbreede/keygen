@@ -10,15 +10,23 @@ class Model:
     def check_key(self, seed: str, key: str) -> bool:
         is_valid = key == self.generate_key(seed)
         if is_valid:
-            logger.info("Key %r is valid", self.add_dashes(key))
+            logger.info("Key %r is valid", key)
         else:
-            logger.warning("Key %r is invalid", self.add_dashes(key))
+            logger.warning("Key %r is invalid", key)
         return is_valid
+
+    def keygen(self, seed: str) -> str:
+        # TODO: Write better keygen
+        pass
 
     def generate_key(self, seed: str) -> str:
         logger.debug("Generating key for seed %r", seed)
         key = seed.upper()
-        logger.debug("Key to uppercase:       %r", self.add_dashes(key))
+        logger.debug("Key to uppercase:       %r", key)
+
+        key = "".join(key[c % len(key)] for c in range(self.KEY_LENGTH))
+        logger.debug("Filled to length %02d:    %r", self.KEY_LENGTH, key)
+
         key = (
             key.replace("0", "A")
             .replace("1", "B")
@@ -31,21 +39,15 @@ class Model:
             .replace("8", "I")
             .replace("9", "J")
         )
-        logger.debug("Replaced digits:        %r", self.add_dashes(key))
+        logger.debug("Replaced digits:        %r", key)
 
         # TODO: Give additional rotation based on char index
         num = sum(ord(c) for c in key) % 26
-        # key = "".join((self.rot(key, ord(c)) for c in key))
         key = self.rot(key, num)
-        logger.debug("Rotated by %02d:          %r", num, self.add_dashes(key))
-
-        key = "".join(key[c % len(key)] for c in range(self.KEY_LENGTH))
-        logger.debug(
-            "Filled to length %02d:    %r", self.KEY_LENGTH, self.add_dashes(key)
-        )
+        logger.debug("Rotated by %02d:          %r", num, key)
 
         key = "".join(c if i % 2 == 0 else str(ord(c))[-1] for i, c in enumerate(key))
-        logger.debug("Replaced odd chars:     %r", self.add_dashes(key))
+        logger.debug("Replaced odd chars:     %r", key)
         return key
 
     @staticmethod
@@ -65,3 +67,6 @@ class Model:
             if len(text) > n:
                 text = text[:n] + "-" + text[n:]
         return text
+
+    def generate_key_with_dashes(self, seed: str) -> str:
+        return self.add_dashes(self.generate_key(seed))
