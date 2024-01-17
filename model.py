@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__.center(8))
 
 class Model:
     def __init__(self, key_length: int = 25):
-        self.key_length = key_length
+        self.key_length = key_length  # TODO: Consider just hardcoding 25 for everything
         assert self.key_length % 5 == 0  # TODO: Remove this line
 
     def check_key(self, input_data: str, key: str) -> bool:
