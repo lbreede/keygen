@@ -1,15 +1,17 @@
+import logging
+
+import pyperclip
 from PyQt5.QtWidgets import (
     QApplication,
     QHBoxLayout,
     QLabel,
+    QLineEdit,
     QPushButton,
     QVBoxLayout,
     QWidget,
-    QLineEdit,
 )
-import logging
+
 from model import Model
-import pyperclip
 
 
 class bcolors:

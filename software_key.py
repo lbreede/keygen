@@ -1,14 +1,16 @@
+import logging
+
 from PyQt5.QtWidgets import (
     QApplication,
     QHBoxLayout,
     QLabel,
+    QLineEdit,
+    QMessageBox,
     QPushButton,
     QVBoxLayout,
     QWidget,
-    QLineEdit,
-    QMessageBox,
 )
-import logging
+
 from model import Model
 
 
