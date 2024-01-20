@@ -22,11 +22,13 @@ class Model:
         sha256_hash = hashlib.sha256(input_data.encode()).digest()
         key = base64.urlsafe_b64encode(sha256_hash).decode("utf-8")
         key = "".join(char for char in key if char.isalnum())
+        # FIXME: if the above filter filters out too many non-alnum charaters,
+        #        the following line can crash with an IndexError
         key = key[: self.key_length]
         key = key.upper()
         return key
 
-    def _generate_key_old(self, input_data: str) -> str:
+    def _generate_key(self, input_data: str) -> str:
         """My old and fun way of creating a serial key ;)"""
         logger.debug("Generating key for seed %r", input_data)
         key = input_data.upper()
@@ -50,6 +52,7 @@ class Model:
         logger.debug("Replaced digits:        %r", key)
 
         # TODO: Give additional rotation based on char index
+        # FIXME: Underscores in the username aren't filtered and causes rot() to crash
         num = sum(ord(c) for c in key) % 26
         key = self.rot(key, num)
         logger.debug("Rotated by %02d:          %r", num, key)
