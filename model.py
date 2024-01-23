@@ -28,6 +28,7 @@ class Model:
         return True
 
     def generate_key(self, input_data: str) -> str:
+        logger.debug("Generating key for seed %r", input_data)
         sha256_hash = hashlib.sha256(input_data.encode()).digest()
         key = base64.urlsafe_b64encode(sha256_hash).decode("utf-8")
         key = "".join(char for char in key if char.isalnum())
