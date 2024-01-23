@@ -48,14 +48,3 @@ class Model:
             if len(text) > n:
                 text = text[:n] + "-" + text[n:]
         return text
-
-
-def test_generate_key():
-    from tqdm import trange
-
-    model = Model()
-    for i in trange(10_000_000):
-        model.generate_key(str(i))
-
-
-test_generate_key()
