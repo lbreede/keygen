@@ -6,9 +6,9 @@ logger = logging.getLogger(__name__)
 
 
 class Model:
-    def __init__(self, key_length: int = 25):
-        self.key_length = key_length  # TODO: Consider just hardcoding 25 for everything
-        assert self.key_length % 5 == 0  # TODO: Remove this line
+    def __init__(self):
+        self.key_length = 25
+        assert self.key_length % 5 == 0
 
     def check_key(self, input_data: str, key: str) -> bool:
         if len(key) < self.key_length:
@@ -27,59 +27,19 @@ class Model:
         logger.info("Key %r is valid", self.add_dashes(key))
         return True
 
-    def generate_key(self, input_data: str) -> str:
+    def generate_key(self, input_data: str, add_dashes: bool = False) -> str:
         logger.debug("Generating key for seed %r", input_data)
         sha256_hash = hashlib.sha256(input_data.encode()).digest()
         key = base64.urlsafe_b64encode(sha256_hash).decode("utf-8")
         key = "".join(char for char in key if char.isalnum())
-        # FIXME: if the above filter filters out too many non-alnum charaters,
-        #        the following line can crash with an IndexError
+        # Highly unlikely that the key is less than 25 characters at this point.
+        # However, if it is, we'll pad it with X's.
+        key = key.ljust(self.key_length, "X")
         key = key[: self.key_length]
         key = key.upper()
+        if add_dashes:
+            key = self.add_dashes(key)
         return key
-
-    def _generate_key(self, input_data: str) -> str:
-        """My old and fun way of creating a serial key ;)"""
-        logger.debug("Generating key for seed %r", input_data)
-        key = input_data.upper()
-        logger.debug("Key to uppercase:       %r", key)
-
-        key = "".join(key[c % len(key)] for c in range(self.key_length))
-        logger.debug("Filled to length %02d:    %r", self.key_length, key)
-
-        key = (
-            key.replace("0", "A")
-            .replace("1", "B")
-            .replace("2", "C")
-            .replace("3", "D")
-            .replace("4", "E")
-            .replace("5", "F")
-            .replace("6", "G")
-            .replace("7", "H")
-            .replace("8", "I")
-            .replace("9", "J")
-        )
-        logger.debug("Replaced digits:        %r", key)
-
-        # TODO: Give additional rotation based on char index
-        # FIXME: Underscores in the username aren't filtered and causes rot() to crash
-        num = sum(ord(c) for c in key) % 26
-        key = self.rot(key, num)
-        logger.debug("Rotated by %02d:          %r", num, key)
-
-        key = "".join(c if i % 2 == 0 else str(ord(c))[-1] for i, c in enumerate(key))
-        logger.debug("Replaced odd chars:     %r", key)
-        return key
-
-    @staticmethod
-    def rot(text: str, n: int) -> str:
-        assert all(c.isupper() for c in text)
-        return "".join(chr((ord(c) - ord("A") + n) % 26 + ord("A")) for c in text)
-
-    @staticmethod
-    def rot13(text: str) -> str:
-        assert all(c.isupper() for c in text)
-        return "".join(chr((ord(c) - ord("A") + 13) % 26 + ord("A")) for c in text)
 
     def add_dashes(self, text: str) -> str:
         magic_number = self.key_length // 5
@@ -89,5 +49,13 @@ class Model:
                 text = text[:n] + "-" + text[n:]
         return text
 
-    def generate_key_with_dashes(self, seed: str) -> str:
-        return self.add_dashes(self.generate_key(seed))
+
+def test_generate_key():
+    from tqdm import trange
+
+    model = Model()
+    for i in trange(10_000_000):
+        model.generate_key(str(i))
+
+
+test_generate_key()
