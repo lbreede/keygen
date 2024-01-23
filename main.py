@@ -1,5 +1,4 @@
 import json
-import logging
 import logging.config
 import pathlib
 
@@ -16,8 +15,8 @@ logger = logging.getLogger(__name__)
 
 def setup_logging() -> None:
     config_file = pathlib.Path("logging_configs/config.json")
-    with open(config_file) as f:
-        config = json.load(f)
+    with open(config_file) as fp:
+        config = json.load(fp)
     logging.config.dictConfig(config)
 
 
@@ -26,13 +25,16 @@ def main() -> None:
     logger.info("Starting application")
 
     app = QApplication([])
-    # model = Model()
+
+    model = Model()  # Be mindful this is shared between the two views
 
     software_view = SoftwareView()
-    software_presenter = SoftwarePresenter(Model(), software_view)
+    _software_presenter = SoftwarePresenter(model, software_view)
+    software_view.move(100, 100)
 
     keygen_view = KeygenView()
-    keygen_presenter = KeygenPresenter(Model(), keygen_view)
+    _keygen_presenter = KeygenPresenter(model, keygen_view)
+    keygen_view.move(300, 300)
 
     software_view.show()
     keygen_view.show()
