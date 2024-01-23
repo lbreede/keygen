@@ -81,14 +81,12 @@ class Presenter:
         self.connect_signals()
 
     def init_view(self) -> None:
-        logger.debug("Initializing view")
         self.view.serial_placeholder_text = "-".join(
             ["X" * (self.model.key_length // 5) for _ in range(5)]
         )
         self.view.serial_max_length = self.model.key_length + 4
 
     def connect_signals(self) -> None:
-        logger.debug("Connecting signals")
         self.view.serial_field.textChanged.connect(self.format_serial)
         self.view.next_btn.clicked.connect(self.next_btn_clicked)
         self.view.cancel_btn.clicked.connect(self.view.close)

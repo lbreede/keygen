@@ -75,7 +75,6 @@ class Presenter:
         self.connect_signals()
 
     def connect_signals(self) -> None:
-        logger.debug("Connecting signals")
         self.view.copy_btn.clicked.connect(self.copy_serial)
         self.view.generate_btn.clicked.connect(self.next_btn_clicked)
         self.view.cancel_btn.clicked.connect(self.view.close)
