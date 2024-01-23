@@ -109,3 +109,18 @@ class Presenter:
             QMessageBox.warning(
                 self.view, "Error", "Your key is invalid, please try again."
             )
+
+
+def main() -> None:
+    app = QApplication([])
+
+    model = Model()
+    view = View()
+    _ = Presenter(model, view)
+
+    view.show()
+    app.exec_()
+
+
+if __name__ == "__main__":
+    main()
