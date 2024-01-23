@@ -1,6 +1,6 @@
 import logging
 
-import pyperclip  # type: ignore
+import pyperclip
 from PyQt5.QtWidgets import (
     QApplication,
     QHBoxLayout,
@@ -13,36 +13,7 @@ from PyQt5.QtWidgets import (
 
 from model import Model
 
-
-class bcolors:
-    DEBUG = "\033[94m"
-    INFO = "\033[92m"
-    WARNING = "\033[93m"
-    ERROR = "\033[91m"
-    CRITICAL = "\033[91m"
-    ENDC = "\033[0m"
-
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-
-LEVEL_COLORS: tuple[tuple[int, str], ...] = (
-    (logging.DEBUG, bcolors.DEBUG),
-    (logging.INFO, bcolors.INFO),
-    (logging.WARNING, bcolors.WARNING),
-    (logging.ERROR, bcolors.ERROR),
-    (logging.CRITICAL, bcolors.CRITICAL),
-)
-
-for level, color in LEVEL_COLORS:
-    name = f"{color}{logging.getLevelName(level):^8}{bcolors.ENDC}"
-    logging.addLevelName(level, name)
-
-
-logger = logging.getLogger("keygen".center(8))
+logger = logging.getLogger("keygen")
 
 
 class View(QWidget):
@@ -109,7 +80,7 @@ class Presenter:
         self.view.cancel_btn.clicked.connect(self.view.close)
 
     def copy_serial(self) -> None:
-        pyperclip.copy(self.view.serial)  # type: ignore
+        pyperclip.copy(self.view.serial)
         logger.info("Copied serial %r to clipboard", self.view.serial)
 
     def format_serial(self, text: str) -> None:
@@ -123,12 +94,16 @@ class Presenter:
         )
 
 
-if __name__ == "__main__":
+def main():
     app = QApplication([])
 
     model = Model()
     view = View()
-    presenter = Presenter(model, view)
+    _ = Presenter(model, view)
 
     view.show()
     app.exec_()
+
+
+if __name__ == "__main__":
+    main()
