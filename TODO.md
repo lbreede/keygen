@@ -4,6 +4,8 @@ Project Description
 
 ### Todo
 
+- [ ] Come up with new key generation method. Preferably one that does not require a seed.
+
 ### In Progress
 
 ### Done ✓
