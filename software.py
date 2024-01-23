@@ -103,7 +103,6 @@ class Presenter:
             )
             self.view.close()
         else:
-            # TODO: Consider just logging, it gets annoying
             QMessageBox.warning(
                 self.view, "Error", "Your key is invalid, please try again."
             )
