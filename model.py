@@ -2,7 +2,7 @@ import base64
 import hashlib
 import logging
 
-logger = logging.getLogger(__name__.center(8))
+logger = logging.getLogger("model")
 
 
 class Model:
@@ -11,6 +11,9 @@ class Model:
         assert self.key_length % 5 == 0  # TODO: Remove this line
 
     def check_key(self, input_data: str, key: str) -> bool:
+        if len(key) < self.key_length:
+            logger.warning("Key %r is too short", key)
+            return False
         is_valid = key == self.generate_key(input_data)
         if is_valid:
             logger.info("Key %r is valid", self.add_dashes(key))
