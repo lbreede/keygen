@@ -1,4 +1,6 @@
-import logging
+import json
+import logging.config
+import pathlib
 
 from PyQt5.QtWidgets import (
     QApplication,
@@ -13,36 +15,7 @@ from PyQt5.QtWidgets import (
 
 from model import Model
 
-
-class bcolors:
-    DEBUG = "\033[94m"
-    INFO = "\033[92m"
-    WARNING = "\033[93m"
-    ERROR = "\033[91m"
-    CRITICAL = "\033[91m"
-    ENDC = "\033[0m"
-
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-
-LEVEL_COLORS: tuple[tuple[int, str], ...] = (
-    (logging.DEBUG, bcolors.DEBUG),
-    (logging.INFO, bcolors.INFO),
-    (logging.WARNING, bcolors.WARNING),
-    (logging.ERROR, bcolors.ERROR),
-    (logging.CRITICAL, bcolors.CRITICAL),
-)
-
-for level, color in LEVEL_COLORS:
-    name = f"{color}{logging.getLevelName(level):^8}{bcolors.ENDC}"
-    logging.addLevelName(level, name)
-
-
-logger = logging.getLogger(__name__.center(8))
+logger = logging.getLogger("main")
 
 
 class View(QWidget):
@@ -82,6 +55,7 @@ class View(QWidget):
 
     @property
     def serial(self) -> str:
+        """Serial without dashes"""
         return self.serial_field.text().replace("-", "")
 
     @property
@@ -109,12 +83,14 @@ class Presenter:
         self.connect_signals()
 
     def init_view(self) -> None:
+        logger.debug("Initializing view")
         self.view.serial_placeholder_text = "-".join(
             ["X" * (self.model.key_length // 5) for _ in range(5)]
         )
         self.view.serial_max_length = self.model.key_length + 4
 
     def connect_signals(self) -> None:
+        logger.debug("Connecting signals")
         self.view.serial_field.textChanged.connect(self.format_serial)
         self.view.next_btn.clicked.connect(self.next_btn_clicked)
         self.view.cancel_btn.clicked.connect(self.view.close)
@@ -137,12 +113,25 @@ class Presenter:
             )
 
 
-if __name__ == "__main__":
+def setup_logging() -> None:
+    config_file = pathlib.Path("logging_configs/config.json")
+    with open(config_file) as f:
+        config = json.load(f)
+    logging.config.dictConfig(config)
+
+
+def main():
+    setup_logging()
+
     app = QApplication([])
 
     model = Model()
     view = View()
-    presenter = Presenter(model, view)
+    _ = Presenter(model, view)
 
     view.show()
     app.exec_()
+
+
+if __name__ == "__main__":
+    main()
