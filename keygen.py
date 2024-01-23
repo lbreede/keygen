@@ -90,7 +90,7 @@ class Presenter:
 
     def next_btn_clicked(self):
         self.view.serial_field.setText(
-            self.model.generate_key_with_dashes(self.view.username)
+            self.model.generate_key(self.view.username, add_dashes=True)
         )
 
 
