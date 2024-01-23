@@ -32,14 +32,6 @@
                 "stdout",
                 "file"
             ]
-        },
-        "keygen": {
-            "level": "DEBUG",
-            "handlers": [
-                "stdout",
-                "file"
-            ],
-            "propagate": "no"
         }
     }
 }

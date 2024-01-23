@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (
 
 from model import Model
 
-logger = logging.getLogger("keygen")
+logger = logging.getLogger(__name__)
 
 
 class View(QWidget):
