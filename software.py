@@ -1,3 +1,4 @@
+from enum import Enum
 import logging
 
 from PyQt5.QtWidgets import (
@@ -17,16 +18,22 @@ logger = logging.getLogger(__name__)
 
 
 class View(QWidget):
-    def __init__(self):
+    def __init__(self, window_title: str, heading: str, body: str):
         super().__init__()
-        self.setWindowTitle("Activate Software")
+        self.setWindowTitle(window_title)
+
+        _heading = QLabel(f"<h1>{heading}</h1>")
+        _body = QLabel(body)
 
         self.serial_field = QLineEdit()
+        self.back_btn = QPushButton("< Back")
         self.next_btn = QPushButton("Next >")
         self.cancel_btn = QPushButton("Cancel")
 
         layout = QVBoxLayout()
-        layout.addLayout(self.line_edit_layout("Serial:", self.serial_field))
+        layout.addWidget(_heading)
+        layout.addWidget(_body)
+        layout.addLayout(self.line_edit_layout("CD Key:", self.serial_field))
         layout.addLayout(self.buttons_layout())
         self.setLayout(layout)
 
@@ -41,6 +48,7 @@ class View(QWidget):
 
     def buttons_layout(self) -> QHBoxLayout:
         buttons_layout = QHBoxLayout()
+        buttons_layout.addWidget(self.back_btn)
         buttons_layout.addWidget(self.next_btn)
         buttons_layout.addWidget(self.cancel_btn)
         return buttons_layout
@@ -56,6 +64,24 @@ class View(QWidget):
     @serial_max_length.setter
     def serial_max_length(self, length: int):
         self.serial_field.setMaxLength(length)
+
+
+class ViewPreset(Enum):
+    WIN95 = 0
+
+
+class ViewBuilder:
+    @classmethod
+    def build(cls, view_preset: ViewPreset):
+        return View(
+            window_title="Windows 95 Setup Wizard",
+            heading="Product Identification",
+            body=(
+                "Locate your 10-digit CD Key and type it in the space below. You will find \n"
+                "this number on the yellow sticker on the back of your CD case. Then \n"
+                "click Next to continue."
+            ),
+        )
 
 
 class Presenter:
@@ -88,7 +114,16 @@ def main() -> None:
     app = QApplication([])
 
     model = Win95KeyManager()
-    view = View()
+    body = (
+        "Locate your 10-digit CD Key and type it in the space below. You will find \n"
+        "this number on the yellow sticker on the back of your CD case. Then \n"
+        "click Next to continue."
+    )
+    view = View(
+        window_title="Windows 95 Setup Wizard",
+        heading="Product Identification",
+        body=body,
+    )
     _ = Presenter(model, view)
 
     view.show()
