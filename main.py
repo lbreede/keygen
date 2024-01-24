@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QApplication
 from key_manager import Win95KeyManager
 from keygen import KeygenUI, KeygenCtrl
 from software import Presenter as SoftwarePresenter
-from software import View as SoftwareView
+from software import ViewBuilder, ViewPreset
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ def main() -> None:
     app = QApplication([])
 
     model = Win95KeyManager()  # Be mindful this is shared between the two views
-    _s = SoftwarePresenter(model, software_view := SoftwareView())
+    _s = SoftwarePresenter(model, software_view := ViewBuilder.build(ViewPreset.WIN95))
     _k = KeygenCtrl(model, keygen_view := KeygenUI())
 
     software_view.move(100, 100)
