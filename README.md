@@ -15,6 +15,7 @@ A fun excursion in the world of software product keys and keygens.
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [Features](#features)
 - [License](#license)
 
 ## Installation
