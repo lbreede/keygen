@@ -1,12 +1,13 @@
 import base64
 import hashlib
 import logging
-from typing import Protocol
-from string import digits
 import random
-import time
-from tqdm import trange
 import re
+import time
+from string import digits
+from typing import Protocol
+
+from tqdm import trange
 
 logger = logging.getLogger(__name__)
 
