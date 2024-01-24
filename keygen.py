@@ -1,7 +1,6 @@
 import logging
 
 import pyperclip
-from model import KeyManager, Win95KeyManager
 from PyQt5.QtWidgets import (
     QApplication,
     QHBoxLayout,
@@ -11,6 +10,8 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+
+from key_manager import KeyManager, Win95KeyManager
 
 logger = logging.getLogger(__name__)
 

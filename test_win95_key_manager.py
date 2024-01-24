@@ -1,4 +1,4 @@
-from model import Win95KeyManager
+from key_manager import Win95KeyManager
 
 win95_key_manager = Win95KeyManager()
 
