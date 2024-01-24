@@ -16,7 +16,7 @@ from key_manager import KeyManager, Win95KeyManager
 logger = logging.getLogger(__name__)
 
 
-class View(QWidget):
+class KeygenUI(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Keygen")
@@ -81,7 +81,7 @@ def main():
     app = QApplication([])
 
     model = Win95KeyManager()
-    view = View()
+    view = KeygenUI()
     _ = Presenter(model, view)
 
     view.show()
