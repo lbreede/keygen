@@ -59,7 +59,7 @@ class KeygenUI(QWidget):
 
 
 class Presenter:
-    def __init__(self, model: KeyManager, view: View):
+    def __init__(self, model: KeyManager, view: KeygenUI):
         self.model = model
         self.view = view
         self.connect_signals()
