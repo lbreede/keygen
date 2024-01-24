@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-from model import Model
+from model import KeyManager, Win95KeyManager
 
 logger = logging.getLogger(__name__)
 
@@ -20,10 +20,6 @@ class View(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Keygen")
-        username_label = QLabel("Username:")
-        username_label.setFixedWidth(100)
-        self.username_field = QLineEdit()
-        self.username_field.setFixedWidth(300)
 
         serial_label = QLabel("Serial:")
         serial_label.setFixedWidth(100)
@@ -34,11 +30,9 @@ class View(QWidget):
         self.copy_btn = QPushButton("Copy to Clipboard")
         self.cancel_btn = QPushButton("Cancel")
 
-        username_field = self.line_edit_layout("Username:", self.username_field)
         serial_field = self.line_edit_layout("Serial:", self.serial_field)
 
         layout = QVBoxLayout()
-        layout.addLayout(username_field)
         layout.addLayout(serial_field)
         layout.addLayout(self.buttons_layout())
         self.setLayout(layout)
@@ -60,16 +54,12 @@ class View(QWidget):
         return buttons_layout
 
     @property
-    def username(self) -> str:
-        return self.username_field.text().strip()
-
-    @property
     def serial(self) -> str:
         return self.serial_field.text()
 
 
 class Presenter:
-    def __init__(self, model: Model, view: View):
+    def __init__(self, model: KeyManager, view: View):
         self.model = model
         self.view = view
         self.connect_signals()
@@ -83,21 +73,14 @@ class Presenter:
         pyperclip.copy(self.view.serial)
         logger.info("Copied serial %r to clipboard", self.view.serial)
 
-    def format_serial(self, text: str) -> None:
-        text = "".join(c.upper() for c in text if c.isalnum())
-        text = self.model.add_dashes(text)
-        self.view.serial_field.setText(text)
-
     def next_btn_clicked(self):
-        self.view.serial_field.setText(
-            self.model.generate_key(self.view.username, add_dashes=True)
-        )
+        self.view.serial_field.setText(self.model.generate_key())
 
 
 def main():
     app = QApplication([])
 
-    model = Model()
+    model = Win95KeyManager()
     view = View()
     _ = Presenter(model, view)
 

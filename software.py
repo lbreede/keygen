@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-from model import Model
+from model import KeyManager, Win95KeyManager
 
 logger = logging.getLogger(__name__)
 
@@ -21,13 +21,11 @@ class View(QWidget):
         super().__init__()
         self.setWindowTitle("Activate Software")
 
-        self.username_field = QLineEdit()
         self.serial_field = QLineEdit()
         self.next_btn = QPushButton("Next >")
         self.cancel_btn = QPushButton("Cancel")
 
         layout = QVBoxLayout()
-        layout.addLayout(self.line_edit_layout("Username:", self.username_field))
         layout.addLayout(self.line_edit_layout("Serial:", self.serial_field))
         layout.addLayout(self.buttons_layout())
         self.setLayout(layout)
@@ -48,21 +46,8 @@ class View(QWidget):
         return buttons_layout
 
     @property
-    def username(self) -> str:
-        return self.username_field.text().strip()
-
-    @property
     def serial(self) -> str:
-        """Serial without dashes"""
-        return self.serial_field.text().replace("-", "")
-
-    @property
-    def serial_placeholder_text(self) -> str:
-        ...
-
-    @serial_placeholder_text.setter
-    def serial_placeholder_text(self, text: str):
-        self.serial_field.setPlaceholderText(text)
+        return self.serial_field.text()
 
     @property
     def serial_max_length(self) -> int:
@@ -74,17 +59,10 @@ class View(QWidget):
 
 
 class Presenter:
-    def __init__(self, model: Model, view: View):
+    def __init__(self, model: KeyManager, view: View):
         self.model = model
         self.view = view
-        self.init_view()
         self.connect_signals()
-
-    def init_view(self) -> None:
-        self.view.serial_placeholder_text = "-".join(
-            ["X" * (self.model.key_length // 5) for _ in range(5)]
-        )
-        self.view.serial_max_length = self.model.key_length + 4
 
     def connect_signals(self) -> None:
         self.view.serial_field.textChanged.connect(self.format_serial)
@@ -92,12 +70,10 @@ class Presenter:
         self.view.cancel_btn.clicked.connect(self.view.close)
 
     def format_serial(self, text: str) -> None:
-        text = "".join(c.upper() for c in text if c.isalnum())
-        text = self.model.add_dashes(text)
-        self.view.serial_field.setText(text)
+        self.view.serial_field.setText(self.model.format_key(text))
 
     def next_btn_clicked(self):
-        if self.model.check_key(self.view.username, self.view.serial):
+        if self.model.validate_key(self.view.serial):
             QMessageBox.information(
                 self.view, "Success", "Your key is valid, you can proceed."
             )
@@ -111,7 +87,7 @@ class Presenter:
 def main() -> None:
     app = QApplication([])
 
-    model = Model()
+    model = Win95KeyManager()
     view = View()
     _ = Presenter(model, view)
 
