@@ -8,7 +8,7 @@
 
 ## Description
 
-A fun excursion in the world of software serial keys and keygens.
+A fun excursion in the world of software product keys and keygens.
 
 ## Table of Contents
 
@@ -38,37 +38,39 @@ To install and use this project, follow these steps:
 
 ## Usage
 
-1. Run the main program:
+1. For convenience, you can run both the product key and the keygen UI from the main file:
     ```bash
     python main.py
     ```
-    A dialog should show.
+2. In the product key window, guess a key and press "Next >" to see if it's a valid key (probably not).
 
-2. Come up with a random username and provide it to the field.
+3. Press "Generate" to generate a valid key.
 
-3. Guess the key and provide it to the field.
+4. Press "Copy to Clipboard" to copy the generated key.
 
-4. Press "Next >" and see if you guessed the key correctly (probably not).
+5. Return to the product key window and paste the key into the field.
 
-5. Run the keygen program:
-    ```bash
-    python keygen.py
-    ```
-    Another dialog should show.
+6. Press "Next >" and see if the key is now valid (hopefully yes).
 
-6. Provide the username you came up with earlier to the field.
+That's it! You have successfully used the Keygen program.
 
-7. Press "Generate" to generate a key.
+## Features
 
-8. Press "Copy to Clipboard" to copy the generated key.
+In the `key_manager.py` file, you can find the `KeyManager` protocol which defines the interface for a key manager.
+Currently, there is only one implementation of this protocol, the `Win95KeyManager` used to generate and validate Windows 95 product keys.
 
-9. Go back to the previous window or application where you need to enter the key.
+### Win95KeyManager
 
-10. Paste the copied key into the appropriate field.
+The `Win95KeyManager` is implementing the following rules, found on [Product key - Wikipedia](https://en.m.wikipedia.org/wiki/Product_key#Windows_95_retail_key):
 
-11. Press "Next >" and see if you guessed the key correctly (probably yes).
+Windows 95 retail product keys take the form XXX-XXXXXXX. To determine whether the key is valid, Windows 95 performs the following checks:
 
-That's it! You have successfully used the keygen program.
+- The first 3 characters must not be equal to 333, 444, 555, 666, 777, 888 or 999.
+- The last 7 characters must all be numbers from 0-8.
+- The sum of the last 7 numbers must be divisible by 7 with no remainder.
+- The fourth character is unchecked.
+
+If all checks pass, the product key is valid.
 
 ## License
 
