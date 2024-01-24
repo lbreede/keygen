@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QApplication
 
 from keygen import Presenter as KeygenPresenter
 from keygen import View as KeygenView
-from model import Model
+from model import Model, Win95KeyManager
 from software import Presenter as SoftwarePresenter
 from software import View as SoftwareView
 
@@ -26,7 +26,7 @@ def main() -> None:
 
     app = QApplication([])
 
-    model = Model()  # Be mindful this is shared between the two views
+    model = Win95KeyManager()  # Be mindful this is shared between the two views
 
     software_view = SoftwareView()
     _software_presenter = SoftwarePresenter(model, software_view)
