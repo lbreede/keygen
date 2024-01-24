@@ -58,9 +58,9 @@ class KeygenUI(QWidget):
         return self.serial_field.text()
 
 
-class Presenter:
-    def __init__(self, model: KeyManager, view: KeygenUI):
-        self.model = model
+class KeygenCtrl:
+    def __init__(self, key_manager: KeyManager, view: KeygenUI):
+        self.key_manager = key_manager
         self.view = view
         self.connect_signals()
 
@@ -74,7 +74,7 @@ class Presenter:
         logger.info("Copied serial %r to clipboard", self.view.serial)
 
     def next_btn_clicked(self):
-        self.view.serial_field.setText(self.model.generate_key())
+        self.view.serial_field.setText(self.key_manager.generate_key())
 
 
 def main():
@@ -82,7 +82,7 @@ def main():
 
     model = Win95KeyManager()
     view = KeygenUI()
-    _ = Presenter(model, view)
+    _ = KeygenCtrl(model, view)
 
     view.show()
     app.exec_()
