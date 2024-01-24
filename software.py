@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
-from model import KeyManager, Win95KeyManager
+from key_manager import KeyManager, Win95KeyManager
 
 logger = logging.getLogger(__name__)
 
