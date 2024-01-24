@@ -6,6 +6,7 @@ from string import digits
 import random
 import time
 from tqdm import trange
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -17,26 +18,23 @@ class KeyManager(Protocol):
     def generate_key(self) -> str:
         ...
 
+    def format_key(self, key: str) -> str:
+        ...
+
 
 class Win95KeyManager:
     BAD_PREFIXES = {"333", "444", "555", "666", "777", "888", "999"}
 
     def validate_key(self, key: str) -> bool:
-        if len(key) != 11 or key[3] != "-":
+        pattern = re.compile(r"^(\d{3})-(\d{7}$)")
+        if (match := pattern.match(key)) is None:
             logger.debug(
-                "INVALID: %s - The key must be 11 characters long and contain a dash "
-                "after the third character.",
-                key,
+                "INVALID: %s - The key must be in the format of XXX-XXXXXXX.", key
             )
             return False
+        prefix, suffix = match.groups()
 
-        if not key[:3].isdigit() or not key[4:].isdigit():
-            logger.debug(
-                "INVALID: %s - The first 3 and last 7 characters must be numbers.", key
-            )
-            return False
-
-        if key in self.BAD_PREFIXES:
+        if prefix in self.BAD_PREFIXES:
             logger.debug(
                 "INVALID: %s - The first 3 characters must not equal to 333, 444, 555, "
                 "666, 777, 888 or 999.",
@@ -44,13 +42,13 @@ class Win95KeyManager:
             )
             return False
 
-        if "9" in key[4:]:
+        if "9" in suffix:
             logger.debug(
                 "INVALID: %s - The last 7 characters must all be numbers from 0-8.", key
             )
             return False
 
-        if sum(int(x) for x in key[4:]) % 7:
+        if sum(int(x) for x in suffix) % 7:
             logger.debug(
                 "INVALID: %s - The sum of the last 7 numbers must be divisible by 7 "
                 "with no remainder.",
@@ -68,6 +66,13 @@ class Win95KeyManager:
         while suffix is None or sum(int(x) for x in suffix) % 7:
             suffix = "".join(random.choice("012345678") for _ in range(7))
         return f"{prefix}-{suffix}"
+
+    def format_key(self, key: str) -> str:
+        key = "".join(x for x in key if x.isdigit())
+        if len(key) >= 3:
+            key = key[:3] + "-" + key[3:]
+        key = key[:11]
+        return key
 
     def speed_test(self, iterations: int = 1_000_000) -> None:
         start = time.time()
@@ -124,8 +129,7 @@ class Model:
 
 def main() -> None:
     logging.basicConfig(level=logging.DEBUG)
-    key_mgr = Win95KeyManager()
-    key_mgr.speed_test(10_000)
+    print(Win95KeyManager().format_key("11aaaaaaa2362457724574511111"))
 
 
 if __name__ == "__main__":
