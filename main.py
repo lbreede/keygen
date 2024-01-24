@@ -5,7 +5,7 @@ import pathlib
 from PyQt5.QtWidgets import QApplication
 
 from key_manager import Win95KeyManager
-from keygen import KeygenUI, KeygenCtrl
+from keygen import KeygenCtrl, KeygenUI
 from software import Presenter as SoftwarePresenter
 from software import ViewBuilder, ViewPreset
 
