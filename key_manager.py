@@ -1,5 +1,3 @@
-import base64
-import hashlib
 import logging
 import random
 import re
@@ -30,7 +28,8 @@ class Win95KeyManager:
         pattern = re.compile(r"^(\d{3})-(\d{7}$)")
         if (match := pattern.match(key)) is None:
             logger.debug(
-                "INVALID: %s - The key must be in the format of XXX-XXXXXXX.", key
+                "INVALID: %s - The key must be in the format of XXX-XXXXXXX.",
+                key,
             )
             return False
         prefix, suffix = match.groups()
@@ -45,7 +44,8 @@ class Win95KeyManager:
 
         if "9" in suffix:
             logger.debug(
-                "INVALID: %s - The last 7 characters must all be numbers from 0-8.", key
+                "INVALID: %s - The last 7 characters must all be numbers from 0-8.",
+                key,
             )
             return False
 

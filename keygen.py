@@ -37,7 +37,9 @@ class KeygenUI(QWidget):
         layout.addLayout(self.buttons_layout())
         self.setLayout(layout)
 
-    def line_edit_layout(self, name: str, line_edit: QLineEdit | QLabel) -> QHBoxLayout:
+    def line_edit_layout(
+        self, name: str, line_edit: QLineEdit | QLabel
+    ) -> QHBoxLayout:
         layout = QHBoxLayout()
         label = QLabel(name)
         label.setFixedWidth(100)
