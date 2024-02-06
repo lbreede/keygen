@@ -25,13 +25,13 @@ def main() -> None:
     app = QApplication([])
 
     model = Win95KeyManager()
-    SoftwarePresenter(model, win95_view := ViewBuilder.build(ViewPreset.WIN95))
-    KeygenCtrl(model, keygen_view := KeygenUI())
-
+    win95_view = ViewBuilder.build(ViewPreset.WIN95)
+    _s = SoftwarePresenter(model, win95_view)
     win95_view.move(100, 100)
-    keygen_view.move(300, 300)
-
     win95_view.show()
+
+    _k = KeygenCtrl(model, keygen_view := KeygenUI())
+    keygen_view.move(300, 300)
     keygen_view.show()
 
     app.exec_()
