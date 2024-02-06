@@ -24,18 +24,14 @@ def main() -> None:
     logger.info("Starting application")
     app = QApplication([])
 
-    model = (
-        Win95KeyManager()
-    )  # Be mindful this is shared between the two views
-    _s = SoftwarePresenter(
-        model, software_view := ViewBuilder.build(ViewPreset.WIN95)
-    )
-    _k = KeygenCtrl(model, keygen_view := KeygenUI())
+    model = Win95KeyManager()
+    SoftwarePresenter(model, win95_view := ViewBuilder.build(ViewPreset.WIN95))
+    KeygenCtrl(model, keygen_view := KeygenUI())
 
-    software_view.move(100, 100)
+    win95_view.move(100, 100)
     keygen_view.move(300, 300)
 
-    software_view.show()
+    win95_view.show()
     keygen_view.show()
 
     app.exec_()
