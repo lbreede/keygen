@@ -1,8 +1,15 @@
 import logging
 
 import pyperclip  # type: ignore
-from PyQt5.QtWidgets import (QApplication, QHBoxLayout, QLabel, QLineEdit,
-                             QPushButton, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 from key_manager import KeyManager, Win95KeyManager
 
