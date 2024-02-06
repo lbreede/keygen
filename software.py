@@ -1,16 +1,8 @@
 import logging
 from enum import Enum
 
-from PyQt5.QtWidgets import (
-    QApplication,
-    QHBoxLayout,
-    QLabel,
-    QLineEdit,
-    QMessageBox,
-    QPushButton,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt5.QtWidgets import (QApplication, QHBoxLayout, QLabel, QLineEdit,
+                             QMessageBox, QPushButton, QVBoxLayout, QWidget)
 
 from key_manager import KeyManager, Win95KeyManager
 
