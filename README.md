@@ -38,9 +38,15 @@ To install and use this project, follow these steps:
 
 ## Usage
 
-1. For convenience, you can run both the product key and the keygen UI from the main file:
+1. Open two terminal windows and run the following commands in each:
+
+    Terminal 1 for the product key window:
     ```bash
-    python main.py
+    python software.py
+    ```
+    Terminal 2 for the keygen window:
+    ```bash
+    python keygen.py
     ```
 2. In the product key window, guess a key and press "Next >" to see if it's a valid key (probably not).
 
