@@ -1,6 +1,6 @@
 import logging
 
-import pyperclip
+import pyperclip  # type: ignore
 from PyQt5.QtWidgets import (
     QApplication,
     QHBoxLayout,
@@ -72,7 +72,7 @@ class KeygenCtrl:
         self.view.cancel_btn.clicked.connect(self.view.close)
 
     def copy_serial(self) -> None:
-        pyperclip.copy(self.view.serial)
+        pyperclip.copy(self.view.serial)  # type: ignore
         logger.info("Copied serial %r to clipboard", self.view.serial)
 
     def next_btn_clicked(self):
