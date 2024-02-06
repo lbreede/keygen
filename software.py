@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import (
 )
 
 from key_manager import KeyManager, Win95KeyManager
+from log import setup_logging
 
 logger = logging.getLogger(__name__)
 
@@ -111,6 +112,7 @@ class Presenter:
 
 
 def main() -> None:
+    setup_logging()
     app = QApplication([])
 
     model = Win95KeyManager()

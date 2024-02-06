@@ -12,6 +12,7 @@ from PyQt5.QtWidgets import (
 )
 
 from key_manager import KeyManager, Win95KeyManager
+from log import setup_logging
 
 logger = logging.getLogger(__name__)
 
@@ -77,9 +78,11 @@ class KeygenCtrl:
 
     def next_btn_clicked(self):
         self.view.serial_field.setText(self.key_manager.generate_key())
+        logger.info("Generated a new serial: %r", self.view.serial)
 
 
 def main():
+    setup_logging()
     app = QApplication([])
 
     model = Win95KeyManager()
