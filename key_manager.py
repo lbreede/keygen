@@ -36,23 +36,24 @@ class Win95KeyManager:
 
         if prefix in self.BAD_PREFIXES:
             logger.debug(
-                "INVALID: %s - The first 3 characters must not equal to 333, 444, 555, "
-                "666, 777, 888 or 999.",
+                "INVALID: %s - The first 3 characters must not equal to 333, "
+                "444, 555, 666, 777, 888 or 999.",
                 key,
             )
             return False
 
         if "9" in suffix:
             logger.debug(
-                "INVALID: %s - The last 7 characters must all be numbers from 0-8.",
+                "INVALID: %s - The last 7 characters must all be numbers from "
+                "0-8.",
                 key,
             )
             return False
 
         if sum(int(x) for x in suffix) % 7:
             logger.debug(
-                "INVALID: %s - The sum of the last 7 numbers must be divisible by 7 "
-                "with no remainder.",
+                "INVALID: %s - The sum of the last 7 numbers must be "
+                "divisible by 7 with no remainder.",
                 key,
             )
             return False

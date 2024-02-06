@@ -77,9 +77,9 @@ class ViewBuilder:
             window_title="Windows 95 Setup Wizard",
             heading="Product Identification",
             body=(
-                "Locate your 10-digit CD Key and type it in the space below. You will find \n"
-                "this number on the yellow sticker on the back of your CD case. Then \n"
-                "click Next to continue."
+                "Locate your 10-digit CD Key and type it in the space below. "
+                "You will find \nthis number on the yellow sticker on the "
+                "back of your CD case. Then \nclick Next to continue."
             ),
         )
 
@@ -115,9 +115,9 @@ def main() -> None:
 
     model = Win95KeyManager()
     body = (
-        "Locate your 10-digit CD Key and type it in the space below. You will find \n"
-        "this number on the yellow sticker on the back of your CD case. Then \n"
-        "click Next to continue."
+        "Locate your 10-digit CD Key and type it in the space below. You will "
+        "find \nthis number on the yellow sticker on the back of your CD "
+        "case. Then \nclick Next to continue."
     )
     view = View(
         window_title="Windows 95 Setup Wizard",
