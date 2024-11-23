@@ -1,6 +1,6 @@
 import logging
 
-import pyperclip  # type: ignore
+import pyperclip
 from PyQt5.QtWidgets import (
     QApplication,
     QHBoxLayout,
