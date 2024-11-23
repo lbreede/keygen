@@ -25,7 +25,7 @@ class Win95KeyManager:
     BAD_PREFIXES = {"333", "444", "555", "666", "777", "888", "999"}
 
     def validate_key(self, key: str) -> bool:
-        pattern = re.compile(r"^(\d{3})-(\d{7}$)")
+        pattern = re.compile(r"^(\d{3})-(\d{7})$")
         if (match := pattern.match(key)) is None:
             logger.debug(
                 "INVALID: %s - The key must be in the format of XXX-XXXXXXX.",
@@ -44,8 +44,7 @@ class Win95KeyManager:
 
         if "9" in suffix:
             logger.debug(
-                "INVALID: %s - The last 7 characters must all be numbers from "
-                "0-8.",
+                "INVALID: %s - The last 7 characters must all be numbers from " "0-8.",
                 key,
             )
             return False
@@ -82,12 +81,3 @@ class Win95KeyManager:
             assert self.validate_key(self.generate_key())
         duration = time.time() - start
         print(f"Validated {iterations:,} keys in {duration:.2f} seconds.")
-
-
-def main() -> None:
-    logging.basicConfig(level=logging.DEBUG)
-    print(Win95KeyManager().format_key("11aaaaaaa2362457724574511111"))
-
-
-if __name__ == "__main__":
-    main()

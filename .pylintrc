@@ -1,1 +1,2 @@
+disable=missing-docstring
 extension-pkg-whitelist=PyQt5

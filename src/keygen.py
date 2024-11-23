@@ -12,7 +12,6 @@ from PyQt5.QtWidgets import (
 )
 
 from key_manager import KeyManager, Win95KeyManager
-from log import setup_logging
 
 logger = logging.getLogger(__name__)
 
@@ -38,9 +37,7 @@ class KeygenUI(QWidget):
         layout.addLayout(self.buttons_layout())
         self.setLayout(layout)
 
-    def line_edit_layout(
-        self, name: str, line_edit: QLineEdit | QLabel
-    ) -> QHBoxLayout:
+    def line_edit_layout(self, name: str, line_edit: QLineEdit | QLabel) -> QHBoxLayout:
         layout = QHBoxLayout()
         label = QLabel(name)
         label.setFixedWidth(100)
@@ -82,7 +79,6 @@ class KeygenCtrl:
 
 
 def main():
-    setup_logging()
     app = QApplication([])
 
     model = Win95KeyManager()

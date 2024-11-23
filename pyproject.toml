@@ -1,0 +1,18 @@
+[project]
+name = "keygen"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pyperclip>=1.9.0",
+    "pyqt5>=5.15.11",
+    "pytest>=8.3.3",
+    "tqdm>=4.67.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
