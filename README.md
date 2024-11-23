@@ -22,32 +22,37 @@ A fun excursion in the world of software product keys and keygens.
 To install and use this project, follow these steps:
 
 1. Clone the repository to your local machine:
+
     ```bash
     git clone https://github.com/lbreede/keygen.git
     ```
 
 2. Navigate to the project directory:
+
     ```bash
     cd keygen
     ```
 
-3. Install the required dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+3. ~~Install the required dependencies:~~
+
+    ~~pip install -r requirements.txt~~
 
 ## Usage
 
 1. Open two terminal windows and run the following commands in each:
 
     Terminal 1 for the product key window:
+
     ```bash
-    python software.py
+    python src/software.py
     ```
+
     Terminal 2 for the keygen window:
+
     ```bash
-    python keygen.py
+    python src/keygen.py
     ```
+
 2. In the product key window, guess a key and press "Next >" to see if it's a valid key (probably not).
 
 3. Press "Generate" to generate a valid key.
